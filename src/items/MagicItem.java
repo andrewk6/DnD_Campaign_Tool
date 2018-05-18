@@ -1,5 +1,11 @@
 package items;
-public class MagicItem extends Item_Parent{
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class MagicItem extends Item_Parent implements Serializable{
 	//Type Constants
 	public static final int ITEM_ARMOR = 0;
 	public static final int ITEM_ARMOR_CHHAIN_SHIRT = 1;
@@ -47,4 +53,95 @@ public class MagicItem extends Item_Parent{
 	//Magic Item Attributes
 	private int type, rarity, charges, weight;
 	boolean rAttune, attuned;
+	
+	public MagicItem() {
+		super();
+		type = -1;
+		rarity = -1;
+		charges = -1;
+		weight = -1;
+		rAttune = false;
+		attuned = false;
+	}
+	
+	public MagicItem(String name, String desc, Coin cst, int type, int rarity, int charges, int weight, boolean rAttune, boolean attuned) {
+		super(name, desc, cst);
+		this.type = type;
+		this.rarity = rarity;
+		this.charges = charges;
+		this.weight = weight;
+		this.rAttune = rAttune;
+		this.attuned = attuned;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getRarity() {
+		return rarity;
+	}
+
+	public void setRarity(int rarity) {
+		this.rarity = rarity;
+	}
+
+	public int getCharges() {
+		return charges;
+	}
+
+	public void setCharges(int charges) {
+		this.charges = charges;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public boolean isrAttune() {
+		return rAttune;
+	}
+
+	public void setrAttune(boolean rAttune) {
+		this.rAttune = rAttune;
+	}
+
+	public boolean isAttuned() {
+		return attuned;
+	}
+
+	public void setAttuned(boolean attuned) {
+		this.attuned = attuned;
+	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException{
+		oos.defaultWriteObject();
+		
+		oos.writeInt(type);
+		oos.writeInt(rarity);
+		oos.writeInt(charges);
+		oos.writeInt(weight);
+		oos.writeBoolean(rAttune);
+		oos.writeBoolean(attuned);
+	}
+	
+	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		
+		type = ois.readInt();
+		rarity = ois.readInt();
+		charges = ois.readInt();
+		weight = ois.readInt();
+		
+		rAttune = ois.readBoolean();
+		attuned = ois.readBoolean();
+	}
 }
